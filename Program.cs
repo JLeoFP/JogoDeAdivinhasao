@@ -4,6 +4,11 @@ Console.Clear();
 
 while (true)
 {
+    int[]numDigitados = new int[100]; 
+    int countNumDigitados = 0;
+    int starPoint = 1000;
+    
+    
     Console.WriteLine("------------------------------");
     Console.WriteLine("Jogo de Advinhação!");
     Console.WriteLine("------------------------------");
@@ -52,6 +57,7 @@ while (true)
 
         Console.WriteLine($"Digite um número entre 1 e {numMax}:");
         int input = Convert.ToInt32(Console.ReadLine());
+        
         if (input < 1 || input > numMax)
         {
             Console.WriteLine("------------------------------");
@@ -60,27 +66,76 @@ while (true)
             break;
         }   
         
-    
+        bool numRepetido = false;
 
-            if (input == numeroAleatorio)
+        for(int i=0; i< numDigitados.Length; i++)
+        {
+            if (numDigitados[i] == input)
             {
-                Console.WriteLine("------------------------------");
-                Console.WriteLine("Parabéns! Você acertou o número!");
-                Console.WriteLine("------------------------------");
+                numRepetido = true;
                 break;
             }
-            else if (input > numeroAleatorio)
-            {
-                Console.WriteLine("------------------------------");
-                Console.WriteLine("O número digitado é maior do que o número aleatório.");
-                Console.WriteLine("------------------------------");
-            }
-            else
-            {
-                Console.WriteLine("------------------------------");
-                Console.WriteLine("O número digitado é menor do que o número aleatório.");
-                Console.WriteLine("------------------------------");
-            }
+        }
+        if(numRepetido == true)
+        {
+            Console.WriteLine("------------------------------------");
+            Console.WriteLine("Você já digitou esse número, tente novamente.");
+            Console.WriteLine("------------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");
+            Console.ReadLine();
+
+            tentativa--;
+            continue;
+
+        }
+        if(countNumDigitados < numDigitados.Length)
+        {
+            numDigitados[countNumDigitados] = input;
+            countNumDigitados++;
+        }
+
+        if (input == numeroAleatorio)
+        {
+            Console.WriteLine("------------------------------");
+            Console.WriteLine("Parabéns! Você acertou o número!");
+            Console.WriteLine("------------------------------");
+            break;
+        }
+        else if (input > numeroAleatorio)
+        {
+            Console.WriteLine("------------------------------");
+            Console.WriteLine("O número digitado é maior do que o número aleatório.");
+            Console.WriteLine("------------------------------");
+        }
+        else
+        {
+            Console.WriteLine("------------------------------");
+            Console.WriteLine("O número digitado é menor do que o número aleatório.");
+            Console.WriteLine("------------------------------");
+        }
+
+        int difNum = Math.Abs(numeroAleatorio-input);
+        if(difNum >= 10)
+        {
+            starPoint -= 100;
+
+        }
+        else if(difNum >= 5)
+        {
+            starPoint -= 50;
+        }
+        else
+        {
+            starPoint -= 20;
+        }
+
+        if(tentativa == tentativasMax)
+        {
+            Console.WriteLine("------------------------------");
+            Console.WriteLine($"Fim de jogo! O número aleatório era {numeroAleatorio}.");
+            Console.WriteLine($"Sua pontuação final é: {starPoint}");
+            Console.WriteLine("------------------------------");
+        }
 
 
     }
